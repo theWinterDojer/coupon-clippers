@@ -2,7 +2,21 @@
 
 Automated JavaScript bookmarklets for clipping digital coupons from CVS and Publix.
 
-## Installation Instructions
+## Quick Installation  
+
+**Drag these links to your bookmarks bar:**
+
+**CVS Clipper**: <a href="javascript:(async()=>{const delay=ms=>new Promise(r=>setTimeout(r,ms)),scrollDelay=1000,clipDelay=800;let clipped=0,scrollCount=0;const isAtBottom=()=>(window.innerHeight+window.scrollY)>=document.body.offsetHeight-100;console.log('📜 CVS Clipper started...');while(!isAtBottom()&&scrollCount<50){let coupons=[...document.querySelectorAll('button.coupon-action.button-blue.sc-send-to-card-action')];for(let btn of coupons){if(btn.offsetParent!==null&&!btn.disabled){try{btn.scrollIntoView({behavior:'smooth',block:'center'});btn.click();clipped++;console.log(`🔘 Clipped #${clipped}`);await delay(clipDelay);}catch(e){console.warn('⚠️ Clip failed:',e);}}}scrollCount++;window.scrollBy(0,500);await delay(scrollDelay);console.log(`📍 Scroll ${scrollCount}, at bottom: ${isAtBottom()}`);}console.log(`🎉 Done! Clipped ${clipped} coupons.`);alert(`🎉 Done!\nYou clipped ${clipped} new coupon${clipped===1?'':'s'}.`);})()">📎 CVS Clipper</a>
+
+**Publix Clipper**: <a href="javascript:(async()=>{console.log('🟢 Publix Clipper started');const delay=t=>new Promise(r=>setTimeout(r,t));const randomDelay=(min,max)=>delay(Math.floor(Math.random()*(max-min+1))+min);let clipped=0;const scrollToEl=e=>e.scrollIntoView({behavior:'smooth',block:'center'});const humanClick=async(btn)=>{const rect=btn.getBoundingClientRect();const x=rect.left+rect.width*0.5+Math.random()*10-5;const y=rect.top+rect.height*0.5+Math.random()*10-5;btn.focus();btn.dispatchEvent(new MouseEvent('mouseover',{bubbles:true,clientX:x,clientY:y}));await delay(50);btn.dispatchEvent(new MouseEvent('mousedown',{bubbles:true,clientX:x,clientY:y}));await delay(50);btn.dispatchEvent(new MouseEvent('mouseup',{bubbles:true,clientX:x,clientY:y}));btn.click();};async function clickLoadMoreAndWait(){const btn=document.querySelector('button[data-qa-automation=\"button-Load more\"]');if(!btn)return false;console.log('⬇️ Load more found, clicking...');scrollToEl(btn);await humanClick(btn);window.scrollTo(0,document.body.scrollHeight);let retries=10,last=0;while(retries-->0){await delay(1000);let current=Array.from(document.querySelectorAll('button[aria-label=\"Clip coupon\"]')).filter(e=>'false'===e.getAttribute('aria-checked')).length;if(current>last){console.log(`✅ Found ${current} coupons after load.`);return true;}}console.log('❌ No new coupons after Load more.');return false;}let pass=0,maxPasses=25;for(;pass++<maxPasses;){let buttons=Array.from(document.querySelectorAll('button[aria-label=\"Clip coupon\"]')).filter(e=>'false'===e.getAttribute('aria-checked'));console.log(`🔍 Pass ${pass}: ${buttons.length} unclipped coupons`);if(buttons.length===0){const loaded=await clickLoadMoreAndWait();if(!loaded)break;}else{for(const btn of buttons){scrollToEl(btn);try{await humanClick(btn);clipped++;console.log(`🧾 Clipped #${clipped}`);await randomDelay(250,400);}catch(e){console.warn('❌ Failed to click:',e);}}}}console.log(`✅ Publix Clipper finished. Total clipped: ${clipped}`);alert(`✅ Publix Clipper finished. Total clipped: ${clipped}`);})()">📎 Publix Clipper</a>
+
+**Instructions**: 
+- **Drag** the link above directly to your bookmarks bar, OR
+- **Right-click** the link → "Bookmark this link" or "Add to bookmarks"
+
+*Note: If drag & drop doesn't work in your browser, use the manual method below.*
+
+## 📋 Manual Installation (Alternative Method)
 
 1. **Copy the entire code** from the appropriate `.txt` file
 2. **Right-click your bookmarks bar** → "Add page" or "Add bookmark"
