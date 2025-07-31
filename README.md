@@ -15,7 +15,7 @@ javascript:(async()=>{console.log('🟢 Publix Clipper started');const delay=t=>
 ```
 
 ### Installation Instructions:
-1. **Copy** the entire code block above (or apprpriate .txt file)
+1. **Copy** the entire code block above (or appropriate .txt file)
 2. **Create a new bookmark** in your browser (Ctrl+D or Cmd+D)
 3. **Edit the bookmark** and paste the code as the URL
 4. **Name it** "CVS Clipper" or "Publix Clipper"
